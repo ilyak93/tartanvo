@@ -262,4 +262,3 @@ def load_kiiti_intrinsics(filename):
     focalx, focaly, centerx, centery = float(cam_intrinsics[0]), float(cam_intrinsics[5]), float(cam_intrinsics[2]), float(cam_intrinsics[6])
 
     return focalx, focaly, centerx, centery
-
