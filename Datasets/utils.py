@@ -49,15 +49,15 @@ class DownscaleFlow(object):
         self.downscale = 1.0/scale
 
     def __call__(self, sample): 
-        if self.downscale!=1 and sample.has_key('flow'):
+        if self.downscale!=1 and 'flow' in sample: #has_key deprecated
             sample['flow'] = cv2.resize(sample['flow'], 
                 (0, 0), fx=self.downscale, fy=self.downscale, interpolation=cv2.INTER_LINEAR)
 
-        if self.downscale!=1 and sample.has_key('intrinsic'):
+        if self.downscale!=1 and 'intrinsic' in sample:
             sample['intrinsic'] = cv2.resize(sample['intrinsic'], 
                 (0, 0), fx=self.downscale, fy=self.downscale, interpolation=cv2.INTER_LINEAR)
 
-        if self.downscale!=1 and sample.has_key('fmask'):
+        if self.downscale!=1 and 'fmask' in sample:
             sample['fmask'] = cv2.resize(sample['fmask'],
                 (0, 0), fx=self.downscale, fy=self.downscale, interpolation=cv2.INTER_LINEAR)
         return sample
@@ -74,7 +74,7 @@ class CropCenter(object):
             self.size = size
 
     def __call__(self, sample):
-        kks = sample.keys()
+        kks = list(sample.keys()) # changed to list
         th, tw = self.size
         h, w = sample[kks[0]].shape[0], sample[kks[0]].shape[1]
         if w == tw and h == th:
@@ -262,3 +262,4 @@ def load_kiiti_intrinsics(filename):
     focalx, focaly, centerx, centery = float(cam_intrinsics[0]), float(cam_intrinsics[5]), float(cam_intrinsics[2]), float(cam_intrinsics[6])
 
     return focalx, focaly, centerx, centery
+
